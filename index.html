@@ -1,0 +1,455 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Sonaj's UX Portfolio</title>
+<style>
+@font-face {font-family: 'pixel';src: url(https://dl.dropbox.com/s/kmhe7d3n18vdz5e/w95fa.woff?dl=0);}
+
+/* ---------- Basics ---------- */
+body {
+margin:0;
+padding:15px;
+padding-top:40px;
+display:flex;
+justify-content:center;
+background:url(https://i.pinimg.com/originals/b8/bd/75/b8bd75128eec43631eb19e9c1bb5adad.gif) fixed;
+background-size:cover;
+font-family:'pixel', calibri, verdana, sans-serif;
+letter-spacing:1px;
+font-size:14px;
+line-height:18px;
+color:#b8174a;}
+  
+textarea {font:10px calibri, arial;letter-spacing:1px;}
+
+/* Links */
+a {
+font-size:13px;
+font-family:'ms gothic', 'pixel', calibri, verdana;
+font-weight: 600;
+color:#9c143f;
+text-decoration:none;}
+
+a:hover { color:#9c143f; text-decoration:underline; }
+
+/* Scrollbar */
+::-webkit-scrollbar-thumb {
+background-color: #fff;
+border:1px solid #ffdae5;
+border-radius: 3px;}
+::-webkit-scrollbar {
+width: 5px; height: 0px;
+background: transparent;}
+
+/* ---------- Container ---------- */
+.container {
+width:100%;
+max-width:950px;
+background:#fff;
+border-radius:16px;
+border:3.5px double #ffdae5;
+box-shadow:0 15px 25px rgba(0,0,0,0.1);
+display:flex;
+flex-direction:column;}
+
+/* ---------- Top navigation ---------- */
+.nav {
+display:flex;
+align-items:center;
+padding:5px;
+gap:6px;
+border-bottom:1px solid #ef80a3;
+background:linear-gradient(90deg,#fad5e0,#f6b8cc);
+border-radius:16px 16px 0 0;
+box-sizing:border-box;}
+
+.nav-links {
+display:flex;
+gap:6px;
+flex-wrap:nowrap;
+font:11px 'monospace', arial;
+align-items:center;}
+
+.nav-link {
+padding:6px 8px;
+border-radius:5px 5px 0 0;
+background:#fff;
+color:#9c143f;
+text-decoration:none;
+text-transform:uppercase;
+border:1px solid #ef80a3;
+cursor:pointer;
+display:inline-flex;
+align-items:center;
+justify-content:center;
+white-space:nowrap;}
+
+.nav-link.active {
+background:#eb638f;
+color:#fff;
+border-color:#eb638f;
+font-weight:600;}
+
+/* minimize / close decoration */
+.nav-actions {
+margin-left:auto;
+display:flex;
+gap:5px;
+align-items:center;}
+
+/* styling for min/close/reload */
+.btn {
+padding:0 7px;
+height:25px;
+border-radius:12px;
+border:1px solid #ef80a3;
+background:#fff;
+color:#b8174a;
+cursor:pointer;
+display:flex;
+align-items:center;
+justify-content:center;
+font-size:12px;}
+
+/* reload link */
+.reload-link {
+display:flex;
+align-items:center;
+justify-content:center;
+text-decoration:none;
+color:#b8174a;}
+
+.reload-link:hover { text-decoration:none; opacity:0.8; }
+
+/* ---------- address bar ---------- */
+.address-bar {
+display:flex;
+align-items:center;
+gap:5px;
+padding:5px;
+border-bottom:1px solid #f6b8cc;
+background:#fdf1f5;}
+
+.addr-icon {
+width:32px;
+height:28px;
+background:#fff;
+border:1px solid #f6b8cc;
+display:flex;
+align-items:center;
+justify-content:center;
+border-radius:6px;
+color:#b8174a;}
+
+.addr-field {
+flex:1;
+display:flex;
+align-items:center;
+gap:5px;
+background:#fff;
+border:1px solid #f6b8cc;
+padding:5px;
+border-radius:12px;}
+
+.addr-text {
+font-family:tahoma,arial;
+letter-spacing:0px;
+width:100%;
+display:block;
+border:none;
+background:transparent;
+font-size:12px;
+color:#b8174a;
+white-space:nowrap;
+overflow:hidden;
+text-overflow:ellipsis;
+}
+
+/* ---------- main layout ---------- */
+.layout {
+display:flex;
+flex-direction:row;
+gap:5px;
+padding:5px;
+flex-wrap:wrap;}
+
+.side {
+flex:1;
+order:0; /* ---------- change this to 1 if you want the sidebar appear right side ---------- */
+display:flex;
+flex-direction:column;
+gap:5px;
+padding:5px;
+border-radius:12px;
+border:1px solid #ffdae5;
+background:linear-gradient(180deg,#fad5e0,#f6b8cc);
+box-shadow: inset 0 0 5px rgba(0,0,0,0.02);}
+
+.content {
+flex:2;
+order:1; /* ---------- change this to 0 if you want the content appear left side ---------- */
+display:flex;
+flex-direction:column;
+gap:5px;
+padding:5px;
+border-radius:12px;
+border:1px solid #ffdae5;
+background:linear-gradient(180deg,#fad5e0,#f6b8cc);
+box-shadow: inset 0 0 5px rgba(0,0,0,0.02);}
+
+/* boxes inside sidebar and main section */
+.box {
+padding:10px;
+border-radius:10px;
+background:#fff;
+border:1px dashed #ffdae5;
+color:#b8174a;
+transition: transform 0.3s ease;}
+
+.box:hover { transform: translateY(-2px); }
+
+.content-box {
+padding:10px;
+border-radius:10px;
+background:#fff;
+border:1px dashed #ffdae5;
+box-shadow:0 1px 2px rgba(0,0,0,0.03);
+transition: transform 0.3s ease;}
+
+.content-box:hover {
+transform: translateY(-2px); }
+
+.scrollbox {
+height:90px;
+overflow:auto;
+padding:10px;
+border-radius:10px;
+background:#fff;
+border:1px dashed #ffdae5;
+transition: transform 0.3s ease;}
+
+.scrollbox:hover { transform: translateY(-2px); }
+
+/* titles inside boxes */
+.title { font-size:16px; color:#b8174a; border-bottom:1px dashed #e8477a; margin-bottom:8px; }
+.side-title { font-size:15px; color:#b8174a; border-bottom:1px dashed #e8477a; margin-bottom:8px; }
+
+/* navigation inside the sidebar  */
+.extra-nav a {
+display: block;
+padding: 3px 5px;
+margin-bottom: 3px;
+text-decoration: none;
+color: #9c143f;
+background: #ffdae5;
+border-radius: 5px;
+font-weight: 600;
+transition: background 0.2s ease, padding-left 0.2s;}
+
+.extra-nav a:hover {
+background: #f6b8cc;
+padding-left: 20px;}
+
+/* ---------- profile section ---------- */
+.profile {
+display:flex;
+gap:10px;
+align-items:center;
+padding:5px;
+border:1px solid #ffdae5;
+border-radius:12px;
+background:#fdf1f5;
+box-shadow:0 1px 3px rgba(0,0,0,0.05);}
+
+.profile-pic {
+width:90px;
+height:90px;
+border:1px solid #f6b8cc;
+border-radius:50%;
+background:url("images/headshot_2025.jpeg") no-repeat center center;
+background-size:cover;
+flex-shrink:0;}
+
+.profile-info { display:flex; flex-direction:column; gap:5px;flex:2; }
+.profile-info span { display:block; border-bottom:1px dotted #e8477a; }
+
+.profile-social-card {
+display:flex;
+flex:1;
+flex-direction:column;
+gap:6px;
+padding:5px;
+border-radius:12px;
+background:linear-gradient(180deg,#fdf1f5,#fad5e0);
+border:1px solid #f6b8cc;
+min-width:80px;
+text-align:center;
+flex-shrink:0;}
+
+.social-title {
+font-size:11px;
+font-weight:600;
+color:#b8174a;
+border-bottom:1px dotted #e8477a;
+padding-bottom:2px;}
+
+.social-links {
+display:flex;
+flex-direction:column;
+gap:4px;
+align-items:center;}
+
+/* ---------- Footer ---------- */
+.footer {
+width: 100%;
+margin: 0 auto;
+padding:5px;
+border-top:1px solid #f6b8cc;
+text-align:center;
+border-bottom:1px solid #ef80a3;
+background:linear-gradient(90deg,#fad5e0,#f6b8cc);
+border-radius:0 0 12px 12px;
+box-shadow: inset 0 1px 2px rgba(0,0,0,0.03);}
+
+/* ---------- Responsiveness ---------- */
+@media (max-width:640px) {
+.layout { flex-direction:column; }
+.content { order:1; }
+.side { order:2; }
+}
+
+/* Top Nav responsiveness: stack links under each other on small screens */
+@media (max-width:640px) {
+.nav { flex-direction:column; align-items:stretch; gap:8px; padding:8px; }
+.nav-links { flex-direction:column; gap:6px; width:100%; }
+.nav-link { width:100%; box-sizing:border-box; text-align:left; padding:8px 10px; border-radius:8px; }
+.nav-actions { display:none; }
+}
+
+/* CSS for making layout look better on firefox users, JavaScript is located on bottom of the <body> */
+.is-firefox {font-size: 14px;line-height:16px;}.is-firefox .title {font-size: 14px;} .is-firefox a:link {font-size: 14px;} .is-firefox .container {width:100%;max-width:800px;}
+*, *::before, *::after { box-sizing: border-box; }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+  <div class="nav">
+
+    <div class="nav-links">
+      <a class="nav-link active" href="index.html">Home</a>
+      <a class="nav-link" href="project-code-red.html">Projects</a>
+    </div>
+
+    <div class="nav-actions">
+      <button class="btn" title="Minimize">—</button>
+      <button class="btn" title="Close">✕</button>
+    </div>
+
+  </div> <!-- navigation bar ends -->
+
+  <div class="address-bar">
+
+    <div class="addr-icon">
+      <img src="https://file.garden/Zl2CmebwmXKvGhRN/candyshoppe%20rentry/pixels/pink/124" alt="my melody icon">
+    </div>
+
+    <div class="addr-field">
+      
+      <span class="addr-text">www.sonajsanders.com/portfolio</span>
+    </div>
+
+    <a href="#" class="btn reload-link" title="Reload">Reload</a>
+
+  </div> <!-- .address-bar end -->
+
+  <div class="layout">
+
+    <main class="content">
+
+      <div class="profile">
+        <div class="profile-pic"></div>
+        <div class="profile-info">
+          <span><strong>Your Name:</strong> Sonaj Sanders </span>
+          <span><strong> Status:</strong> Incoming UX/UI Intern @ Mastercard (Summer 2026)</span>
+          <span><strong> Location:</strong> Atlanta, GA</span>
+          <span><strong> Email:</strong> <a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="2a594b444e4f58595945444b406a4d474b434604494547">[email&#160;protected]</a></span>
+        </div>
+
+        <div class="profile-social-card">
+          <div class="social-title">My links</div>
+          <div class="social-links">
+            <a href="">Resume</a>
+            <a href="">LinkedIn</a>
+          </div>
+        </div>
+
+      </div> <!-- .profile end -->
+
+      <div class="content-box">
+        <div class="title">
+          <img src="http://img.photobucket.com/albums/v252/shaquanda/dumpitydump/pixelwixel/1788.gif" alt="x"> About Me
+        </div>
+       <b>3rd Year Interactive Design Major @ Kennesaw State University</b>
+Hi! I'm a UX/UI Designer with proficiency in Enterprise UX (internal solutions), UX Research (UXR), and web + mobile application design. I love creating user-centered designs that are both functional and visually appealing. My goal is to create seamless and enjoyable experiences for users while solving complex problems through design. When I'm not designing, you can find me exploring new cafes, binge-watching K-dramas, or hanging out with friends.
+
+
+      </div>
+
+      <div class="content-box">
+        <div class="title">
+          <img src="http://img.photobucket.com/albums/v252/shaquanda/dumpitydump/pixelwixel/1788.gif" alt="x"> Federal Reserve Bank of Atlanta - UX Research Intern (May 2025-Nov 2025)
+        </div>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. In quis volutpat diam. Nunc elementum accumsan arcu ut pulvinar. Duis semper, sem sed commodo feugiat, magna eros scelerisque lectus, et tincidunt arcu nunc ut odio. Fusce dolor lorem.
+      </div>
+
+      <div class="scrollbox">
+        <div class="title"><img src="http://img.photobucket.com/albums/v252/shaquanda/dumpitydump/pixelwixel/1788.gif" alt="x"> A scrollbox example</div>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. In quis volutpat diam. Nunc elementum accumsan arcu ut pulvinar. Duis semper, sem sed commodo feugiat, magna eros scelerisque lectus, et tincidunt arcu nunc ut odio. Fusce dolor lorem, varius id pellentesque et, dignissim ac erat.
+      </div>
+
+      <div class="content-box">
+        <div class="title"><img src="http://img.photobucket.com/albums/v252/shaquanda/dumpitydump/pixelwixel/1788.gif" alt="x"> Title here</div>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. In quis volutpat diam. Nunc elementum accumsan arcu ut pulvinar. Duis semper, sem sed commodo feugiat, magna eros scelerisque lectus, et tincidunt arcu nunc ut odio. Fusce dolor lorem.
+      </div>
+
+    </main> <!-- main .content ends -->
+
+    <aside class="side">
+      <div class="box">
+        <div class="side-title">Title here</div>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. In quis volutpat diam. Nunc elementum accumsan arcu ut pulvinar. Duis semper, sem sed commodo feugiat, magna eros scelerisque lectus, et tincidunt arcu nunc ut odio. Phasellus quis odio sed ante lobortis vestibulum.
+      </div>
+
+      <div class="box">
+        <div class="side-title">Project Showcase</div>
+        All the projects I've done/been apart of (ദ്ദി˙ᗜ˙) ✧˚₊‧♡ <br>
+        <div class="extra-nav">
+          <!-- UPDATED LINKS - These now point to your project pages -->
+          <a href="project-code-red.html"><img src="https://64.media.tumblr.com/1f71bbec997b78e4bc892c9ee731f19f/7a9e21f770e4f8f4-ad/s75x75_c1/8ae2bef34afa7c405be346612872bf7fb1a23214.gifv" alt="x"> Code Red: Period Tracker App (UX Design)</a>
+          <a href="project-fed-reserve.html"><img src="https://64.media.tumblr.com/1f71bbec997b78e4bc892c9ee731f19f/7a9e21f770e4f8f4-ad/s75x75_c1/8ae2bef34afa7c405be346612872bf7fb1a23214.gifv" alt="x"> Federal Reserve Bank of Atlanta: New Hire Onboarding Redesign (UX Research) </a>
+          <a href="project-echopay.html"><img src="https://64.media.tumblr.com/1f71bbec997b78e4bc892c9ee731f19f/7a9e21f770e4f8f4-ad/s75x75_c1/8ae2bef34afa7c405be346612872bf7fb1a23214.gifv" alt="x"> EchoPay: Stablecoin App (UX Design + UX Research)</a>
+        </div>
+      </div>
+
+      <div class="box">
+        <div class="side-title">My Book of the Month</div>
+        Hodent's use of neuroscience principles really help with understanding how player's minds work in gaming environments 📚✨
+      <a href="https://www.amazon.com/Gamers-Brain-Neuroscience-Impact-Design-ebook/dp/B07V1XFL32?ref_=ast_author_dp_rw&th=1&psc=1&dib=eyJ2IjoiMSJ9.YSeFDkhYC9Yq_A-viBtu095RSlIMJrTpaDydzvQxDVNCv569CgpQfuM_YIbdNhPZYQ2Uo6HD807Lp2EN_VbE7kEkfhgmZL27Od5Hlgi4ouH6U9nKt8mxSSr1BysUoW00.lfRYAdvuvNoq_EnyKgNj_0HwUiLseuZgbQTXEyJGUms&dib_tag=AUTHOR">
+    <img src="images/book_cover.jpg" alt="Gamer's Gamers-Brain-Neuroscience-Impact-Design-ebook" width="200" height="140">
+</a>
+  
+      </div>
+
+    </aside> <!-- .side ends -->
+  </div> <!-- .layout ends -->
+
+  <footer class="footer">Made with 🩷 and 🍵. Best viewed on desktop!</a></footer>
+
+</div> <!-- .container ends -->
+
+<!--this makes layout look better on fi
