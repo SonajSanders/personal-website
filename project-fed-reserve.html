@@ -1,0 +1,1033 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Federal Reserve Bank of Atlanta | Sonaj's UX Portfolio</title>
+  <style>
+    /* ========== FONTS ========== */
+    @font-face {
+      font-family: 'pixel';
+      src: url(https://dl.dropbox.com/s/kmhe7d3n18vdz5e/w95fa.woff?dl=0);
+    }
+
+    /* ========== BASE STYLES ========== */
+    *, *::before, *::after { 
+      box-sizing: border-box; 
+    }
+
+    body {
+      margin: 0;
+      padding: 15px;
+      padding-top: 40px;
+      display: flex;
+      justify-content: center;
+      background: url(https://i.pinimg.com/originals/b8/bd/75/b8bd75128eec43631eb19e9c1bb5adad.gif) fixed;
+      background-size: cover;
+      font-family: 'pixel', calibri, verdana, sans-serif;
+      letter-spacing: 1px;
+      font-size: 14px;
+      line-height: 18px;
+      color: #b8174a;
+    }
+
+    textarea {
+      font: 12px calibri, arial;
+      letter-spacing: 1px;
+    }
+
+    /* ========== LINKS ========== */
+    a {
+      font-size: 13px;
+      font-family: 'ms gothic', 'pixel', calibri, verdana;
+      font-weight: 600;
+      color: #9c143f;
+      text-decoration: none;
+    }
+
+    a:hover { 
+      color: #9c143f; 
+      text-decoration: underline; 
+    }
+
+    /* ========== SCROLLBAR ========== */
+    ::-webkit-scrollbar-thumb {
+      background-color: #fff;
+      border: 1px solid #ffdae5;
+      border-radius: 3px;
+    }
+
+    ::-webkit-scrollbar {
+      width: 5px;
+      height: 0px;
+      background: transparent;
+    }
+
+    /* ========== CONTAINER ========== */
+    .container {
+      width: 100%;
+      max-width: 950px;
+      background: #fff;
+      border-radius: 16px;
+      border: 3.5px double #ffdae5;
+      box-shadow: 0 15px 25px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* ========== TOP NAVIGATION ========== */
+    .nav {
+      display: flex;
+      align-items: center;
+      padding: 5px;
+      gap: 6px;
+      border-bottom: 1px solid #ef80a3;
+      background: linear-gradient(90deg, #fad5e0, #f6b8cc);
+      border-radius: 16px 16px 0 0;
+      box-sizing: border-box;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 6px;
+      flex-wrap: nowrap;
+      font: 11px 'monospace', arial;
+      align-items: center;
+    }
+
+    .nav-link {
+      padding: 6px 8px;
+      border-radius: 5px 5px 0 0;
+      background: #fff;
+      color: #9c143f;
+      text-decoration: none;
+      text-transform: uppercase;
+      border: 1px solid #ef80a3;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      white-space: nowrap;
+    }
+
+    .nav-link.active {
+      background: #eb638f;
+      color: #fff;
+      border-color: #eb638f;
+      font-weight: 600;
+    }
+
+    .nav-actions {
+      margin-left: auto;
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+
+    .btn {
+      padding: 0 7px;
+      height: 25px;
+      border-radius: 12px;
+      border: 1px solid #ef80a3;
+      background: #fff;
+      color: #b8174a;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+    }
+
+    .reload-link {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-decoration: none;
+      color: #b8174a;
+    }
+
+    .reload-link:hover { 
+      text-decoration: none; 
+      opacity: 0.8; 
+    }
+
+    /* ========== ADDRESS BAR ========== */
+    .address-bar {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      padding: 5px;
+      border-bottom: 1px solid #f6b8cc;
+      background: #fdf1f5;
+    }
+
+    .addr-icon {
+      width: 32px;
+      height: 28px;
+      background: #fff;
+      border: 1px solid #f6b8cc;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 6px;
+      color: #b8174a;
+    }
+
+    .addr-field {
+      flex: 1;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      background: #fff;
+      border: 1px solid #f6b8cc;
+      padding: 5px;
+      border-radius: 12px;
+    }
+
+    .addr-text {
+      font-family: tahoma, arial;
+      letter-spacing: 0px;
+      width: 100%;
+      display: block;
+      border: none;
+      background: transparent;
+      font-size: 12px;
+      color: #b8174a;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    /* ========== MAIN LAYOUT ========== */
+    .layout {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+      padding: 10px;
+      flex-wrap: wrap;
+      align-items: flex-start;
+    }
+
+    /* ========== SIDEBAR ========== */
+    .side {
+      flex: 1;
+      min-width: 200px;
+      max-width: 250px;
+      order: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 10px;
+      border-radius: 12px;
+      border: 1px solid #ffdae5;
+      background: linear-gradient(180deg, #fad5e0, #f6b8cc);
+      box-shadow: inset 0 0 5px rgba(0,0,0,0.02);
+      position: sticky;
+      top: 15px;
+      align-self: flex-start;
+    }
+
+    /* ========== CONTENT AREA ========== */
+    .content {
+      flex: 3;
+      order: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding: 10px;
+      border-radius: 12px;
+      border: 1px solid #ffdae5;
+      background: linear-gradient(180deg, #fad5e0, #f6b8cc);
+      box-shadow: inset 0 0 5px rgba(0,0,0,0.02);
+    }
+
+    /* ========== BOXES ========== */
+    .box {
+      padding: 12px;
+      border-radius: 10px;
+      background: #fff;
+      border: 1px dashed #ffdae5;
+      color: #b8174a;
+      transition: transform 0.3s ease;
+    }
+
+    .box:hover { 
+      transform: translateY(-2px); 
+    }
+
+    /* ========== TITLES ========== */
+    .title { 
+      font-size: 16px; 
+      color: #b8174a; 
+      border-bottom: 1px dashed #e8477a; 
+      margin-bottom: 8px; 
+    }
+
+    .side-title { 
+      font-size: 15px; 
+      color: #b8174a; 
+      border-bottom: 1px dashed #e8477a; 
+      margin-bottom: 8px; 
+    }
+
+    /* ========== SIDEBAR NAVIGATION ========== */
+    .extra-nav a {
+      display: block;
+      padding: 6px 10px;
+      margin-bottom: 5px;
+      text-decoration: none;
+      color: #9c143f;
+      background: #ffdae5;
+      border-radius: 5px;
+      font-weight: 600;
+      font-size: 12px;
+      transition: background 0.2s ease, padding-left 0.2s;
+    }
+
+    .extra-nav a:hover {
+      background: #f6b8cc;
+      padding-left: 20px;
+    }
+
+    /* ========== FOOTER ========== */
+    .footer {
+      width: 100%;
+      margin: 0 auto;
+      padding: 10px;
+      border-top: 1px solid #f6b8cc;
+      text-align: center;
+      border-bottom: 1px solid #ef80a3;
+      background: linear-gradient(90deg, #fad5e0, #f6b8cc);
+      border-radius: 0 0 12px 12px;
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.03);
+      font-size: 13px;
+    }
+
+    /* ========== PROJECT HEADER ========== */
+    .project-header {
+      padding: 15px;
+      border-radius: 10px;
+      background: #fff;
+      border: 1px dashed #ffdae5;
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .project-title {
+      font-size: 22px;
+      color: #b8174a;
+      margin-bottom: 8px;
+      border-bottom: 2px dashed #e8477a;
+      padding-bottom: 8px;
+    }
+
+    .project-subtitle {
+      font-size: 14px;
+      color: #9c143f;
+      margin-bottom: 10px;
+    }
+
+    /* ========== TAGS ========== */
+    .tags-container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 10px;
+    }
+
+    .tag {
+      padding: 5px 12px;
+      background: linear-gradient(180deg, #ffdae5, #f6b8cc);
+      border: 1px solid #ef80a3;
+      border-radius: 12px;
+      font-size: 12px;
+      color: #9c143f;
+      font-weight: 600;
+    }
+
+    /* ========== HERO IMAGE ========== */
+    .hero-image {
+      width: 100%;
+      height: 200px;
+      background: linear-gradient(135deg, #ffdae5, #f6b8cc);
+      border: 1px dashed #ef80a3;
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #9c143f;
+      font-size: 13px;
+      margin-bottom: 8px;
+    }
+
+    /* ========== SECTIONS ========== */
+    .section {
+      padding: 15px;
+      border-radius: 10px;
+      background: #fff;
+      border: 1px dashed #ffdae5;
+      margin-bottom: 8px;
+      scroll-margin-top: 10px;
+    }
+
+    .section-title {
+      font-size: 16px;
+      color: #b8174a;
+      border-bottom: 1px dashed #e8477a;
+      margin-bottom: 12px;
+      padding-bottom: 5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-content {
+      color: #b8174a;
+      line-height: 20px;
+      font-size: 14px;
+    }
+
+    /* ========== TABLE OF CONTENTS ========== */
+    .toc-box {
+      padding: 12px;
+      border-radius: 10px;
+      background: #fff;
+      border: 1px dashed #ffdae5;
+    }
+
+    .toc-title {
+      font-size: 14px;
+      color: #b8174a;
+      border-bottom: 1px dashed #e8477a;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    .toc-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .toc-list li {
+      margin-bottom: 6px;
+    }
+
+    .toc-list a {
+      display: block;
+      padding: 5px 8px;
+      text-decoration: none;
+      color: #9c143f;
+      background: #ffdae5;
+      border-radius: 5px;
+      font-weight: 600;
+      font-size: 12px;
+      transition: background 0.2s ease, padding-left 0.2s;
+    }
+
+    .toc-list a:hover {
+      background: #f6b8cc;
+      padding-left: 15px;
+    }
+
+    /* ========== PROJECT NAVIGATION ========== */
+    .project-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px;
+      border-radius: 10px;
+      background: #fff;
+      border: 1px dashed #ffdae5;
+      margin-top: 8px;
+    }
+
+    .nav-arrow {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 8px 15px;
+      background: linear-gradient(180deg, #ffdae5, #f6b8cc);
+      border: 1px solid #ef80a3;
+      border-radius: 10px;
+      color: #9c143f;
+      font-weight: 600;
+      font-size: 12px;
+      text-decoration: none;
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .nav-arrow:hover {
+      background: linear-gradient(180deg, #f6b8cc, #ef80a3);
+      transform: scale(1.05);
+      text-decoration: none;
+    }
+
+    .nav-arrow.prev::before {
+      content: "◀";
+      margin-right: 5px;
+    }
+
+    .nav-arrow.next::after {
+      content: "▶";
+      margin-left: 5px;
+    }
+
+    .nav-arrow.disabled {
+      opacity: 0.5;
+      pointer-events: none;
+    }
+
+    /* ========== BACK LINK ========== */
+    .back-link {
+      display: inline-block;
+      padding: 8px 12px;
+      background: linear-gradient(180deg, #ffdae5, #f6b8cc);
+      border: 1px solid #ef80a3;
+      border-radius: 10px;
+      color: #9c143f;
+      font-weight: 600;
+      font-size: 12px;
+      text-decoration: none;
+      margin-bottom: 8px;
+      transition: transform 0.2s ease;
+    }
+
+    .back-link:hover {
+      transform: scale(1.05);
+      text-decoration: none;
+    }
+
+    /* ========== IMAGE GALLERY ========== */
+    .image-gallery {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin-top: 15px;
+      justify-content: center;
+    }
+
+    .image-item {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      flex: 1;
+      min-width: 120px;
+      max-width: 180px;
+    }
+
+    .image-placeholder {
+      width: 100%;
+      height: 100px;
+      background: linear-gradient(135deg, #ffdae5, #f6b8cc);
+      border: 1px dashed #ef80a3;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #9c143f;
+      font-size: 11px;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .image-placeholder:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 12px rgba(184,23,74,0.2);
+    }
+
+    .image-caption {
+      margin-top: 8px;
+      font-size: 11px;
+      color: #9c143f;
+      text-align: center;
+      font-style: italic;
+      line-height: 14px;
+    }
+
+    /* ========== SOLUTION IMAGE ========== */
+    .solution-image-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      margin-top: 15px;
+    }
+
+    .solution-image-link {
+      display: block;
+      width: 100%;
+      max-width: 250px;
+      text-decoration: none;
+    }
+
+    .solution-image-link:hover {
+      text-decoration: none;
+    }
+
+    .solution-image-placeholder {
+      width: 100%;
+      height: 120px;
+      background: linear-gradient(135deg, #ffdae5, #f6b8cc);
+      border: 1px dashed #ef80a3;
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #9c143f;
+      font-size: 12px;
+      text-align: center;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+    }
+
+    .solution-image-link:hover .solution-image-placeholder {
+      transform: scale(1.03);
+      box-shadow: 0 4px 12px rgba(184,23,74,0.25);
+      border-color: #eb638f;
+      border-style: solid;
+    }
+
+    /* ========== LIGHTBOX ========== */
+    .lightbox {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.85);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      padding: 20px;
+    }
+
+    .lightbox.active {
+      display: flex;
+    }
+
+    .lightbox-content {
+      max-width: 90%;
+      max-height: 90%;
+      background: #fff;
+      border-radius: 16px;
+      border: 3px double #ffdae5;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: default;
+    }
+
+    .lightbox-image {
+      width: 600px;
+      max-width: 100%;
+      height: 400px;
+      max-height: 70vh;
+      background: linear-gradient(135deg, #ffdae5, #f6b8cc);
+      border: 2px dashed #ef80a3;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #9c143f;
+      font-size: 16px;
+    }
+
+    .lightbox-caption {
+      margin-top: 15px;
+      font-size: 14px;
+      color: #b8174a;
+      text-align: center;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: 25px;
+      right: 35px;
+      font-size: 40px;
+      color: #fff;
+      cursor: pointer;
+      transition: color 0.2s ease;
+      line-height: 1;
+    }
+
+    .lightbox-close:hover {
+      color: #ffdae5;
+    }
+
+    /* ========== RESPONSIVENESS ========== */
+    @media (max-width: 768px) {
+      .layout { 
+        flex-direction: column; 
+      }
+      
+      .content { 
+        order: 1; 
+      }
+      
+      .side { 
+        order: 2; 
+        position: relative; 
+        top: 0; 
+        max-width: 100%; 
+      }
+      
+      .image-item { 
+        max-width: 100%; 
+      }
+
+      .lightbox-image {
+        width: 100%;
+        height: 300px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .nav { 
+        flex-direction: column; 
+        align-items: stretch; 
+        gap: 8px; 
+        padding: 8px; 
+      }
+      
+      .nav-links { 
+        flex-direction: column; 
+        gap: 6px; 
+        width: 100%; 
+      }
+      
+      .nav-link { 
+        width: 100%; 
+        box-sizing: border-box; 
+        text-align: left; 
+        padding: 10px 12px; 
+        border-radius: 8px; 
+      }
+      
+      .nav-actions { 
+        display: none; 
+      }
+    }
+
+    /* ========== FIREFOX FIXES ========== */
+    .is-firefox {
+      font-size: 15px;
+      line-height: 19px;
+    }
+
+    .is-firefox .title {
+      font-size: 17px;
+    }
+
+    .is-firefox a:link {
+      font-size: 14px;
+    }
+
+    .is-firefox .container {
+      width: 100%;
+      max-width: 1000px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <!-- ========== NAVIGATION ========== -->
+    <div class="nav">
+      <div class="nav-links">
+        <a class="nav-link" href="index.html">Home</a>
+        <a class="nav-link active" href="#">Projects</a>
+      </div>
+      <div class="nav-actions">
+        <button class="btn" title="Minimize">—</button>
+        <button class="btn" title="Close">✕</button>
+      </div>
+    </div>
+
+    <!-- ========== ADDRESS BAR ========== -->
+    <div class="address-bar">
+      <div class="addr-icon">
+        <img src="https://file.garden/Zl2CmebwmXKvGhRN/candyshoppe%20rentry/pixels/pink/124" alt="my melody icon">
+      </div>
+      <div class="addr-field">
+        <span class="addr-text">www.sonajsanders.com/portfolio/fed-reserve</span>
+      </div>
+      <a href="#" class="btn reload-link" title="Reload">Reload</a>
+    </div>
+
+    <!-- ========== MAIN LAYOUT ========== -->
+    <div class="layout">
+
+      <!-- ========== SIDEBAR ========== -->
+      <aside class="side">
+        
+        <a href="index.html" class="back-link">◀ Back to Portfolio</a>
+
+        <div class="toc-box">
+          <div class="toc-title">
+            <img src="http://img.photobucket.com/albums/v252/shaquanda/dumpitydump/pixelwixel/1788.gif" alt="x"> Table of Contents
+          </div>
+          <ul class="toc-list">
+            <li><a href="#overview">Overview</a></li>
+            <li><a href="#my-role">My Role</a></li>
+            <li><a href="#problem">Problem</a></li>
+            <li><a href="#design-process">Design Process</a></li>
+            <li><a href="#solution">Solution</a></li>
+            <li><a href="#lessons-learned">Lessons Learned</a></li>
+          </ul>
+        </div>
+
+        <div class="box">
+          <div class="side-title">Other Projects</div>
+          <div class="extra-nav">
+            <a href="project-code-red.html">
+              <img src="https://64.media.tumblr.com/1f71bbec997b78e4bc892c9ee731f19f/7a9e21f770e4f8f4-ad/s75x75_c1/8ae2bef34afa7c405be346612872bf7fb1a23214.gifv" alt="x"> Code Red
+            </a>
+            <a href="project-echopay.html">
+              <img src="https://64.media.tumblr.com/1f71bbec997b78e4bc892c9ee731f19f/7a9e21f770e4f8f4-ad/s75x75_c1/8ae2bef34afa7c405be346612872bf7fb1a23214.gifv" alt="x"> EchoPay
+            </a>
+          </div>
+        </div>
+
+      </aside>
+
+      <!-- ========== MAIN CONTENT ========== -->
+      <main class="content">
+
+        <!-- Project Header -->
+        <div class="project-header">
+          <div class="project-title">
+            <img src="http://img.photobucket.com/albums/v252/shaquanda/dumpitydump/pixelwixel/1788.gif" alt="x"> 
+            Federal Reserve Bank of Atlanta: New Hire Onboarding Redesign
+          </div>
+          <div class="project-subtitle">
+            Improving the employee onboarding experience through user research
+          </div>
+          <div class="tags-container">
+            <!-- EDIT TAGS HERE -->
+            <span class="tag">UX Research</span>
+            <span class="tag">Enterprise UX</span>
+            <span class="tag">Internship</span>
+            <span class="tag">User Interviews</span>
+            <span class="tag">6 Months</span>
+          </div>
+        </div>
+
+        <!-- Hero Image -->
+        <div class="hero-image">
+          <!-- REPLACE: Add your hero image here -->
+          [ Hero Image Placeholder - Add your image here ]
+        </div>
+
+        <!-- Overview Section -->
+        <div class="section" id="overview">
+          <div class="section-title">
+            <img src="http://img.photobucket.com/albums/v252/shaquanda/dumpitydump/pixelwixel/1788.gif" alt="x"> 
+            Overview
+          </div>
+          <div class="section-content">
+            <!-- EDIT OVERVIEW CONTENT HERE -->
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. In quis volutpat diam. Nunc elementum accumsan arcu ut pulvinar. Duis semper, sem sed commodo feugiat, magna eros scelerisque lectus, et tincidunt arcu nunc ut odio.
+            <br><br>
+            Phasellus quis odio sed ante lobortis vestibulum. Mauris auctor, nisi vel tincidunt fermentum.
+          </div>
+        </div>
+
+        <!-- My Role Section -->
+        <div class="section" id="my-role">
+          <div class="section-title">
+            <img src="http://img.photobucket.com/albums/v252/shaquanda/dumpitydump/pixelwixel/1788.gif" alt="x"> 
+            My Role
+          </div>
+          <div class="section-content">
+            <!-- EDIT MY ROLE CONTENT HERE -->
+            <b>Role:</b> UX Research Intern
+            <br><br>
+            <b>Responsibilities:</b>
+            <br>• Conducting User Interviews
+            <br>• Survey Design & Analysis
+            <br>• Affinity Mapping
+            <br>• Presenting Findings to Stakeholders
+            <br>• Creating Research Reports
+            <br><br>
+            <b>Team:</b> UX Design Team at Federal Reserve Bank of Atlanta
+            <br><br>
+            <b>Timeline:</b> May 2025 - November 2025 (6 months)
+          </div>
+        </div>
+
+        <!-- Problem Section -->
+        <div class="section" id="problem">
+          <div class="section-title">
+            <img src="http://img.photobucket.com/albums/v252/shaquanda/dumpitydump/pixelwixel/1788.gif" alt="x"> 
+            Problem
+          </div>
+          <div class="section-content">
+            <!-- EDIT PROBLEM CONTENT HERE -->
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. In quis volutpat diam.
+            <br><br>
+            <b>Problem Statement:</b> How might we streamline the new hire onboarding process to reduce time-to-productivity while ensuring employees feel welcomed and prepared?
+            <br><br>
+            Duis semper, sem sed commodo feugiat, magna eros scelerisque lectus.
+          </div>
+        </div>
+
+        <!-- Design Process Section -->
+        <div class="section" id="design-process">
+          <div class="section-title">
+            <img src="http://img.photobucket.com/albums/v252/shaquanda/dumpitydump/pixelwixel/1788.gif" alt="x"> 
+            Design Process
+          </div>
+          <div class="section-content">
+            <!-- EDIT DESIGN PROCESS CONTENT HERE -->
+            <b>1. Stakeholder Interviews</b>
+            <br>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            <br><br>
+            <b>2. User Research Planning</b>
+            <br>Duis semper, sem sed commodo feugiat, magna eros scelerisque lectus.
+            <br><br>
+            <b>3. Conducting Interviews</b>
+            <br>Fusce dolor lorem, varius id pellentesque et, dignissim ac erat.
+            <br><br>
+            <b>4. Data Analysis & Synthesis</b>
+            <br>Mauris auctor, nisi vel tincidunt fermentum.
+            <br><br>
+            <b>5. Recommendations & Presentation</b>
+            <br>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+
+            <!-- Design Process Images -->
+            <div class="image-gallery">
+              <div class="image-item">
+                <div class="image-placeholder" onclick="openLightbox('Caption for image 1')">
+                  <!-- REPLACE: Add your image here -->
+                  [ Image 1 ]
+                </div>
+                <div class="image-caption">Caption for image 1</div>
+              </div>
+              <div class="image-item">
+                <div class="image-placeholder" onclick="openLightbox('Caption for image 2')">
+                  <!-- REPLACE: Add your image here -->
+                  [ Image 2 ]
+                </div>
+                <div class="image-caption">Caption for image 2</div>
+              </div>
+              <div class="image-item">
+                <div class="image-placeholder" onclick="openLightbox('Caption for image 3')">
+                  <!-- REPLACE: Add your image here -->
+                  [ Image 3 ]
+                </div>
+                <div class="image-caption">Caption for image 3</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Solution Section -->
+        <div class="section" id="solution">
+          <div class="section-title">
+            <img src="http://img.photobucket.com/albums/v252/shaquanda/dumpitydump/pixelwixel/1788.gif" alt="x"> 
+            Solution
+          </div>
+          <div class="section-content">
+            <!-- EDIT SOLUTION CONTENT HERE -->
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit. In quis volutpat diam.
+            <br><br>
+            <b>Key Recommendations:</b>
+            <br>• Recommendation 1 - Description
+            <br>• Recommendation 2 - Description
+            <br>• Recommendation 3 - Description
+            <br><br>
+            Fusce dolor lorem, varius id pellentesque et, dignissim ac erat.
+
+            <!-- Solution Image -->
+            <div class="solution-image-container">
+              <a href="#" class="solution-image-link" title="Link to complete Figma file" target="_blank">
+                <!-- REPLACE: Add your Figma link in href above -->
+                <div class="solution-image-placeholder">
+                  <!-- REPLACE: Add your image here -->
+                  [ Solution Image ]
+                  <br>
+                  <span style="font-size:10px;">Click to view Figma</span>
+                </div>
+              </a>
+              <div class="image-caption">Final design mockup - Click to view complete Figma file</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Lessons Learned Section -->
+        <div class="section" id="lessons-learned">
+          <div class="section-title">
+            <img src="http://img.photobucket.com/albums/v252/shaquanda/dumpitydump/pixelwixel/1788.gif" alt="x"> 
+            Lessons Learned
+          </div>
+          <div class="section-content">
+            <!-- EDIT LESSONS LEARNED CONTENT HERE -->
+            Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            <br><br>
+            <b>What I would do differently:</b>
+            <br>Duis semper, sem sed commodo feugiat, magna eros scelerisque lectus.
+            <br><br>
+            <b>Key takeaways:</b>
+            <br>• Takeaway 1
+            <br>• Takeaway 2
+            <br>• Takeaway 3
+          </div>
+        </div>
+
+        <!-- Project Navigation -->
+        <div class="project-nav">
+          <a href="project-code-red.html" class="nav-arrow prev">Previous Project</a>
+          <a href="project-echopay.html" class="nav-arrow next">Next Project</a>
+        </div>
+
+      </main>
+
+    </div>
+
+    <!-- ========== FOOTER ========== -->
+    <footer class="footer">Made with 🩷 and 🍵. Best viewed on desktop!</footer>
+
+  </div>
+
+  <!-- ========== LIGHTBOX ========== -->
+  <div class="lightbox" id="lightbox" onclick="closeLightbox()">
+    <span class="lightbox-close">&times;</span>
+    <div class="lightbox-content" onclick="event.stopPropagation()">
+      <div class="lightbox-image" id="lightbox-image">
+        <!-- Your enlarged image will display here -->
+        [ Enlarged Image ]
+      </div>
+      <div class="lightbox-caption" id="lightbox-caption"></div>
+    </div>
+  </div>
+
+  <!-- ========== SCRIPTS ========== -->
+  <script src="https://shye.nekoweb.org/firefox.js"></script>
+  <script>
+    // Lightbox functionality
+    function openLightbox(caption) {
+      document.getElementById('lightbox').classList.add('active');
+      document.getElementById('lightbox-caption').textContent = caption;
+    }
+
+    function closeLightbox() {
+      document.getElementById('lightbox').classList.remove('active');
+    }
+
+    // Close lightbox with Escape key
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeLightbox();
+      }
+    });
+  </script>
+
+</body>
+</html>
